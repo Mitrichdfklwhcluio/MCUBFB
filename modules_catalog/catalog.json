@@ -338,7 +338,7 @@
         "author": "Mitrichq",
         "version": "1.0.0"
     },
-    "tabfix-tool": { 
+    "tabfix-tool": {
 	   "description": "tabfix-tool for Mitrichq userbot, please install 'pip install tabfix-tool'",
            "commands": [
 		   ".tabfix help"
@@ -346,7 +346,7 @@
 	   "author": "Hairpin00",
 	   "version": "1.2.0"
     },
-	"inline_example": { 
+	"inline_example": {
 	   "description": "пример как делать модули с испольлзованием инлайн бота",
            "commands": [
 		     ".card",
@@ -388,5 +388,20 @@
             ],
         "author": "Hairpin00",
         "version": "1.0.0"
+    },
+    "text_expression": {
+        "description": "Процессор выражений для текстовых операций, bash/python выполнения и работы с данными",
+        "commands": [
+            ".exprhelp - помощь по модулю",
+            ".exprauto <выражение> - применить к ответу",
+            ".exprset <имя> <значение> - установить переменную",
+            ".exprget <имя> - получить переменную",
+            ".exprlist - список всех переменных",
+            ".exprdel <имя> - удалить переменную",
+            ".exprrand <тип> <параметры> - генерация случайных данных",
+            ".exprclear - очистить все переменные"
+        ],
+        "author": "Hairpin00",
+        "version": "3.1"
     }
 }
