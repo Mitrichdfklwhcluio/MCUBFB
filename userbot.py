@@ -682,12 +682,20 @@ async def handler(event):
         await event.edit(f'✅ Алиас создан: `{command_prefix}{alias}` → `{command_prefix}{command}`')
     
     elif text == f'{command_prefix}menu':
+        title = '🤖 **Mitrich UserBot - Меню**'
+        
         buttons = [
-            [Button.inline('📊 Инфо', b'info'), Button.inline('📦 Модули', b'modules')],
-            [Button.inline('⚙️ Настройки', b'settings'), Button.inline('📝 Логи', b'logs')],
-            [Button.inline('🔄 Обновить', b'update'), Button.inline('🔄 Перезагрузка', b'restart')]
+            [
+                Button.inline('📊 Инфо', b'info'), Button.inline('📦 Модули', b'modules')
+            ],
+            [
+                Button.inline('⚙️ Настройки', b'settings'), Button.inline('📝 Логи', b'logs')
+            ],
+            [
+                Button.inline('🔄 Обновить', b'update'), Button.inline('🔄 Перезагрузка', b'restart')
+            ]
         ]
-        await event.edit('🤖 **Mitrich UserBot - Меню**', buttons=buttons)
+        await event.edit(title, buttons=buttons)
     
     elif text.startswith(f'{command_prefix}lang '):
         new_lang = text[len(command_prefix)+5:].strip()
