@@ -5,12 +5,12 @@
 </div>
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/7fceb52b899d44b3bb151b568dc99d38)](https://app.codacy.com/gh/Mitrichdfklwhcluio/MCUBFB/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
-[![GitHub repo size](https://img.shields.io/github/repo-size/hairpin01/tabfix)](https://github.com/Mitrichdfklwhcluio/MCUBFB)
-[![GitHub last commit](https://img.shields.io/github/last-commit/hairpin01/tabfix)](https://github.com/Mitrichdfklwhcluio/MCUBFB/commits/main)
-[![GitHub issues](https://img.shields.io/github/issues-raw/hairpin01/tabfix)](https://github.com/Mitrichdfklwhcluio/MCUBFB/issues)
-[![GitHub forks](https://img.shields.io/github/forks/hairpin01/tabfix?style=flat)](https://github.com/Mitrichdfklwhcluio/MCUBFB/network/members)
-[![GitHub stars](https://img.shields.io/github/stars/hairpin01/tabfix)](https://github.com/Mitrichdfklwhcluio/MCUBFB/stargazers)
-[![GitHub license](https://img.shields.io/github/license/hairpin01/tabfix)](https://github.com/Mitrichdfklwhcluio/MCUBFB/blob/main/LICENSE) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![GitHub repo size](https://img.shields.io/github/repo-size/Mitrichdfklwhcluio/MCUBFB)](https://github.com/Mitrichdfklwhcluio/MCUBFB)
+[![GitHub last commit](https://img.shields.io/github/last-commit/Mitrichdfklwhcluio/MCUBFB)](https://github.com/Mitrichdfklwhcluio/MCUBFB/commits/main)
+[![GitHub issues](https://img.shields.io/github/issues-raw/Mitrichdfklwhcluio/MCUBFB)](https://github.com/Mitrichdfklwhcluio/MCUBFB/issues)
+[![GitHub forks](https://img.shields.io/github/forks/Mitrichdfklwhcluio/MCUBFB?style=flat)](https://github.com/Mitrichdfklwhcluio/MCUBFB/network/members)
+[![GitHub stars](https://img.shields.io/github/stars/Mitrichdfklwhcluio/MCUBFB)](https://github.com/Mitrichdfklwhcluio/MCUBFB/stargazers)
+[![GitHub license](https://img.shields.io/github/license/Mitrichdfklwhcluio/MCUBFB)](https://github.com/Mitrichdfklwhcluio/MCUBFB/blob/main/LICENSE) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 # Mitrich UserBot
 
