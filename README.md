@@ -37,7 +37,9 @@ pip install -r requirements.txt
 ## Запуск
 
 ```bash
-python3 userbot.py
+python -m userbot
+# или
+python3 userbot/__init__.py
 ```
 > [!TIP]
 > иногда нужно создать виртуальное окружение (`python -m venv .venv ; source .venv/bin/activate`)
