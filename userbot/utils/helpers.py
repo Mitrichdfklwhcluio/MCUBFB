@@ -3,8 +3,28 @@
 
 import os
 import time
+import shlex
 from typing import Optional
 
+from telethon.tl.types import Message
+from telethon.events import NewMessage
+
+from ..config import get
+
+def get_prefix() -> str:
+    return get("command_prefix", ".")
+
+def args(text: Message | NewMessage | str) -> list[str]:
+
+    message = text if isinstance(text, str) else getattr(text, "text", '')
+    
+    if not message.startswith(get_prefix()):
+        return []
+    try:
+        parts = shlex.split(message[len(get_prefix()):])
+    except ValueError:
+        parts = message[len(prefix):].split()
+    return parts[1:] if len(parts) > 1 else []
 
 def progress_bar(current: int, total: int, width: int = 10) -> str:
     """

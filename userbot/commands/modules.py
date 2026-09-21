@@ -23,6 +23,7 @@ from ..core.loader import (
     unload_module,
 )
 from ..utils import Colors, cprint, progress_bar
+from ..core.state import state
 
 #: Modules directory
 MODULES_DIR: str = "modules"
@@ -31,10 +32,6 @@ MODULES_DIR: str = "modules"
 MODULES_REPO: str = (
     "https://raw.githubusercontent.com/Mitrichdfklwhcluio/MCUBFB/main/modules_catalog"
 )
-
-#: Catalog cache
-catalog_cache: dict = {}
-
 
 async def im_handler(
     event: "NewMessage",
@@ -185,8 +182,8 @@ async def dlml_handler(
             async with session.get(f"{catalog_url}/catalog.json") as resp:
                 if resp.status == 200:
                     text_data = await resp.text()
-                    global catalog_cache
-                    catalog_cache = json.loads(text_data)
+                    state.catalog_cache.clear()
+                    state.catalog_cache.update(json.loads(text_data))
 
                     query = f"catalog_{page}"
                     results = await client.inline_query(bot_username, query)

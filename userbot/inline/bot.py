@@ -13,14 +13,7 @@ if TYPE_CHECKING:
 
 from ..config import get as config_get
 
-#: Catalog cache (global)
-catalog_cache: dict = {}
-
-#: Pending confirmations (global)
-pending_confirmations: dict = {}
-
-#: Inline bot client (global)
-_inline_client: Optional["TelegramClient"] = None
+from ..core.state import state
 
 
 async def check_inline_bot(client: "TelegramClient") -> bool:
@@ -99,8 +92,6 @@ async def run_inline_bot(
     main_client: "TelegramClient",
     api_id: int,
     api_hash: str,
-    pending_confirmations_global: dict,
-    catalog_cache_global: dict,
 ) -> None:
     """
     Run inline bot callback handler.
@@ -111,10 +102,6 @@ async def run_inline_bot(
     :param pending_confirmations_global: Pending confirmations dict.
     :param catalog_cache_global: Catalog cache dict.
     """
-    global pending_confirmations, catalog_cache, _inline_client
-
-    pending_confirmations = pending_confirmations_global
-    catalog_cache = catalog_cache_global
 
     bot_token = config_get("inline_bot_token")
     if not bot_token:
@@ -125,7 +112,7 @@ async def run_inline_bot(
 
         bot = BotClient("inline_bot", api_id, api_hash)
         await bot.start(bot_token=bot_token)
-        _inline_client = bot
+        state._inline_client = bot
 
         @bot.on(events.InlineQuery)
         async def inline_handler(event: events.InlineQuery) -> None:
@@ -134,10 +121,10 @@ async def run_inline_bot(
             builder = None
 
             try:
-                builder = _handle_inline_query(event, query)
+                builder = await _handle_inline_query(event, query)
             except Exception as e:
                 print(f"Inline handler error: {e}")
-                builder = event.builder.article("Error", text=f"⚠️ Error")
+                builder = await event.builder.article("Error", text=f"⚠️ Error")
 
             if builder:
                 try:
@@ -158,11 +145,11 @@ async def run_inline_bot(
 async def _handle_inline_query(event: events.InlineQuery, query: str):
     """Process inline query and return article."""
     if query.startswith("2fa_"):
-        return _handle_2fa_query(event, query)
+        return await _handle_2fa_query(event, query)
     elif query.startswith("catalog_"):
-        return _handle_catalog_query(event, query)
+        return await _handle_catalog_query(event, query)
     elif "|" in query:
-        return _handle_message_with_buttons(event, query)
+        return await _handle_message_with_buttons(event, query)
     else:
         text = query.strip() if query else "Empty"
         return event.builder.article("Message", text=text, parse_mode="html")
@@ -180,8 +167,8 @@ async def _handle_2fa_query(event: events.InlineQuery, query: str):
                 Button.inline("❌ Отменить", b"confirm_no"),
             ]
         ]
-        return event.builder.article("2FA", text=text, buttons=buttons)
-    return event.builder.article("Error", text="❌ Ошибка подтверждения")
+        return await event.builder.article("2FA", text=text, buttons=buttons)
+    return await event.builder.article("Error", text="❌ Ошибка подтверждения")
 
 
 async def _handle_catalog_query(event: events.InlineQuery, query: str):
@@ -191,8 +178,10 @@ async def _handle_catalog_query(event: events.InlineQuery, query: str):
     except (ValueError, IndexError):
         page = 1
 
-    if not catalog_cache:
-        return event.builder.article("Error", text="❌ Каталог не загружен. Используйте .dlml")
+    if not state.catalog_cache:
+        return await event.builder.article("Error", text="❌ Каталог не загружен. Используйте .dlml")
+
+    catalog_cache = state.catalog_cache
 
     modules_list = list(catalog_cache.items())
     per_page = 5
@@ -218,7 +207,7 @@ async def _handle_catalog_query(event: events.InlineQuery, query: str):
     if nav_buttons:
         buttons.append(nav_buttons)
 
-    return event.builder.article(
+    return await event.builder.article(
         "Catalog", text=msg, buttons=buttons if buttons else None, parse_mode="html"
     )
 
@@ -239,9 +228,9 @@ async def _handle_message_with_buttons(event: events.InlineQuery, query: str):
             buttons.append([Button.url(btn_parts[0].strip(), url)])
 
     if not text:
-        return event.builder.article("Error", text="⚠️ Empty message")
+        return await event.builder.article("Error", text="⚠️ Empty message")
 
-    return event.builder.article(
+    return await event.builder.article(
         "Message", text=text, buttons=buttons if buttons else None, parse_mode="html"
     )
 
@@ -283,9 +272,11 @@ async def _handle_callback_query(event: events.CallbackQuery, main_client: "Tele
             page = 1
         await event.answer()
 
-        if not catalog_cache:
+        if not state.catalog_cache:
             await event.edit("❌ Каталог не загружен")
             return
+
+        catalog_cache = state.catalog_cache
 
         modules_list = list(catalog_cache.items())
         per_page = 5

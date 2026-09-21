@@ -166,6 +166,10 @@ async def main() -> None:
 
     # Start client
     try:
+        try:
+            client.set_protection_mode("off")
+        except Exception:
+            pass
         await client.start(phone=phone)
 
         if not await healthcheck_task.safe_connect(client):
@@ -201,7 +205,7 @@ async def main() -> None:
         asyncio.create_task(connection.check_connection(client))
         asyncio.create_task(
             run_inline_bot(
-                client, api_id, api_hash, pending_conf, {}
+                client, api_id, api_hash,
             )
         )
         cprint(
@@ -216,6 +220,11 @@ async def main() -> None:
         sys.exit(1)
 
     # Load modules
+    try:
+        client.set_protection_mode("strict")
+    except Exception:
+        pass
+        
     await load_and_run_modules(client, send_inline)
 
     # Handle restart file
